@@ -56,7 +56,7 @@ The `--` is required: it tells npm to pass the folder and `--port` through to th
 On Windows PowerShell:
 
 ```powershell
-npm start -- "C:\Users\howar\Downloads" --port 8080
+npm start -- "C:\Users\alex\Downloads" --port 8080
 ```
 
 Then open the printed LAN URL from another device on the same network, for example:
@@ -83,7 +83,7 @@ npm run dev -- /path/to/share --port 8080
 For Windows paths, quote the folder if it contains backslashes, spaces, or shell-sensitive characters:
 
 ```powershell
-npm run dev -- "C:\Users\howar\Downloads" --port 8080
+npm run dev -- "C:\Users\alex\Downloads" --port 8080
 ```
 
 ## CLI
