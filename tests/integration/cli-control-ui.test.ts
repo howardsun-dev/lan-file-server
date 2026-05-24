@@ -6,15 +6,29 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 let childProcess: ChildProcessWithoutNullStreams | undefined;
 
-async function waitFor(predicate: () => Promise<boolean>, timeoutMs = 5_000): Promise<void> {
+function quoteShellArg(value: string): string {
+  if (process.platform === 'win32') {
+    return `"${value.replaceAll('"', '\\"')}"`;
+  }
+  return `'${value.replaceAll("'", `'\\''`)}'`;
+}
+
+async function waitFor(
+  predicate: () => Promise<boolean>,
+  getDiagnostics: () => string,
+  timeoutMs = 5_000,
+): Promise<void> {
   const started = Date.now();
   while (Date.now() - started < timeoutMs) {
+    if (childProcess?.exitCode !== null && childProcess?.exitCode !== undefined) {
+      throw new Error(`Child process exited before condition passed.\n${getDiagnostics()}`);
+    }
     if (await predicate()) {
       return;
     }
     await new Promise((resolve) => setTimeout(resolve, 50));
   }
-  throw new Error('Timed out waiting for condition');
+  throw new Error(`Timed out waiting for condition.\n${getDiagnostics()}`);
 }
 
 afterEach(async () => {
@@ -36,25 +50,30 @@ describe('CLI control UI launch', () => {
     );
 
     let stdout = '';
-    childProcess = spawn(process.execPath, ['node_modules/.bin/tsx', 'src/cli.ts', '--port', '0'], {
+    let stderr = '';
+    childProcess = spawn(process.execPath, ['--import', 'tsx', 'src/cli.ts', '--port', '0'], {
       cwd: path.resolve(import.meta.dirname, '../..'),
       env: {
         ...process.env,
-        LAN_FILE_SERVER_BROWSER_COMMAND: `${process.execPath} ${openerPath}`,
+        LAN_FILE_SERVER_BROWSER_COMMAND: `${quoteShellArg(process.execPath)} ${quoteShellArg(openerPath)}`,
       },
     });
     childProcess.stdout.on('data', (chunk: Buffer) => {
       stdout += chunk.toString('utf8');
     });
+    childProcess.stderr.on('data', (chunk: Buffer) => {
+      stderr += chunk.toString('utf8');
+    });
 
-    await waitFor(async () => stdout.includes('Control UI: http://127.0.0.1:'));
+    const diagnostics = (): string => `stdout:\n${stdout}\nstderr:\n${stderr}`;
+    await waitFor(async () => stdout.includes('Control UI: http://127.0.0.1:'), diagnostics);
     await waitFor(async () => {
       try {
         return (await readFile(openedUrlPath, 'utf8')).startsWith('http://127.0.0.1:');
       } catch {
         return false;
       }
-    });
+    }, diagnostics);
 
     const openedUrl = await readFile(openedUrlPath, 'utf8');
     expect(openedUrl).toMatch(/^http:\/\/127\.0\.0\.1:\d+$/);

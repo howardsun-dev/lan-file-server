@@ -1,6 +1,9 @@
 import { spawn } from 'node:child_process';
 
 function quoteForShell(value: string): string {
+  if (process.platform === 'win32') {
+    return `"${value.replaceAll('"', '\\"')}"`;
+  }
   return `'${value.replaceAll("'", `'\\''`)}'`;
 }
 
