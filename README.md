@@ -89,20 +89,20 @@ npm run dev -- "C:\Users\alex\Downloads" --port 8080
 ## CLI
 
 ```bash
-lan-file-server                 # Start the local control UI and open it in your browser
-lan-file-server --ui            # Start the local control UI and open it in your browser
-lan-file-server <folder>        # Serve a folder immediately
-lan-file-server <folder> [--host 0.0.0.0] [--port 8080]
+lanshare                 # Start the local control UI and open it in your browser
+lanshare --ui            # Start the local control UI and open it in your browser
+lanshare <folder>        # Serve a folder immediately
+lanshare <folder> [--host 0.0.0.0] [--port 8080]
 ```
 
 Examples:
 
 ```bash
-lan-file-server
-lan-file-server --ui --port 7070
-lan-file-server ~/Downloads
-lan-file-server /srv/share --port 3000
-lan-file-server ~/Pictures --host 127.0.0.1 --port 9000
+lanshare
+lanshare --ui --port 7070
+lanshare ~/Downloads
+lanshare /srv/share --port 3000
+lanshare ~/Pictures --host 127.0.0.1 --port 9000
 ```
 
 ### Options
@@ -116,7 +116,7 @@ lan-file-server ~/Pictures --host 127.0.0.1 --port 9000
 
 ## Security notes
 
-This is a convenience LAN file server, not an internet-facing hardened gateway.
+LANShare is a convenience LAN file server, not an internet-facing hardened gateway.
 
 - It has no authentication.
 - Anyone who can reach the file server host/port can read the shared files.
@@ -153,7 +153,7 @@ Current coverage areas:
 You can import the server from TypeScript/Node code:
 
 ```ts
-import { startServer } from 'lan-file-server';
+import { startServer } from 'lanshare';
 
 const server = await startServer({
   rootDir: '/path/to/share',

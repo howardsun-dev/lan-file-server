@@ -1,5 +1,5 @@
 {
-  "name": "lan-file-server",
+  "name": "lanshare",
   "version": "1.0.0",
   "description": "LANShare: TypeScript HTTP server for sharing a folder on your LAN with a minimalist web UI.",
   "type": "module",
@@ -12,7 +12,7 @@
     }
   },
   "bin": {
-    "lan-file-server": "dist/src/cli.js"
+    "lanshare": "dist/src/cli.js"
   },
   "files": [
     "dist",

@@ -12,21 +12,21 @@ interface CliArgs {
 }
 
 function printHelp(): void {
-  console.log(`lan-file-server
+  console.log(`lanshare
 
 Share a folder over HTTP on your LAN, either directly or through a local control UI.
 
 Usage:
-  lan-file-server                 Start the local control UI
-  lan-file-server --ui            Start the local control UI
-  lan-file-server <folder>        Serve a folder immediately
-  lan-file-server <folder> [--host 0.0.0.0] [--port 8080]
+  lanshare                 Start the local control UI
+  lanshare --ui            Start the local control UI
+  lanshare <folder>        Serve a folder immediately
+  lanshare <folder> [--host 0.0.0.0] [--port 8080]
 
 Examples:
-  lan-file-server
-  lan-file-server --ui --port 7070
-  lan-file-server ~/Downloads
-  lan-file-server /srv/share --port 3000
+  lanshare
+  lanshare --ui --port 7070
+  lanshare ~/Downloads
+  lanshare /srv/share --port 3000
 `);
 }
 
@@ -77,7 +77,7 @@ async function main(): Promise<void> {
 
   if (options.controlUi) {
     const control = await startControlServer({ host: options.host, port: options.port });
-    console.log('LAN File Server control UI is running');
+    console.log('LANShare control UI is running');
     console.log(`Control UI: ${control.url}`);
     console.log('Opening the control UI in your browser so you can choose a folder to serve.');
     openBrowser(control.url);
@@ -87,7 +87,7 @@ async function main(): Promise<void> {
 
   const server = await startServer(options);
 
-  console.log('LAN File Server is running');
+  console.log('LANShare is running');
   console.log(`Local: ${server.url}`);
   for (const url of server.lanUrls) {
     console.log(`LAN:   ${url}`);

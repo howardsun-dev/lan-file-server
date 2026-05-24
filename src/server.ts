@@ -64,7 +64,7 @@ function renderDirectory(rootDir: string, routePath: string, entries: DirectoryE
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LAN File Server ${escapeHtml(title)}</title>
+  <title>LANShare ${escapeHtml(title)}</title>
   <style>
     :root { color-scheme: dark; --bg: #0b0d10; --card: #11151b; --muted: #8b98a9; --line: #222a35; --text: #eef3f8; --accent: #78a8ff; }
     * { box-sizing: border-box; }
@@ -89,7 +89,7 @@ function renderDirectory(rootDir: string, routePath: string, entries: DirectoryE
   <main>
     <section class="shell">
       <header>
-        <h1>LAN File Server</h1>
+        <h1>LANShare</h1>
         <p class="subtitle">Serving <strong>${escapeHtml(rootDir)}</strong>${routePath ? ` · ${escapeHtml(title)}` : ''}</p>
       </header>
       <nav class="toolbar" aria-label="Directory navigation">
