@@ -124,6 +124,8 @@ function renderControlUi(): string {
     .list { max-height: 420px; overflow: auto; padding: 8px; }
     .dir { width: 100%; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: center; text-align: left; margin: 4px 0; border-color: transparent; }
     .status { display: grid; gap: 12px; }
+    .url-list { display: grid; gap: 10px; align-items: start; }
+    .url-list .button { display: block; width: 100%; padding-block: 10px; }
     .pill { display: inline-flex; width: fit-content; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; color: var(--muted); }
     .dot { width: 9px; height: 9px; border-radius: 999px; background: var(--bad); box-shadow: 0 0 18px currentColor; }
     .running .dot { background: var(--good); }
@@ -180,7 +182,7 @@ function renderControlUi(): string {
           </div>
           <div>
             <h2>LAN URLs</h2>
-            <p id="lanUrls" class="mono">Start the server to see LAN addresses.</p>
+            <div id="lanUrls" class="mono url-list">Start the server to see LAN addresses.</div>
           </div>
           <div>
             <h2>Shared folder</h2>
@@ -231,7 +233,7 @@ function renderStatus(status) {
   stopButton.disabled = !status.running;
   servedUrl.textContent = status.url || 'Not running';
   sharedRoot.textContent = status.rootDir || 'None';
-  lanUrls.innerHTML = status.lanUrls?.length ? status.lanUrls.map((url) => '<a class="button mono" href="' + url + '" target="_blank" rel="noreferrer">' + url + '</a>').join(' ') : 'Start the server to see LAN addresses.';
+  lanUrls.innerHTML = status.lanUrls?.length ? status.lanUrls.map((url) => '<a class="button mono" href="' + url + '" target="_blank" rel="noreferrer">' + url + '</a>').join('') : 'Start the server to see LAN addresses.';
 }
 
 function renderDirectories(payload) {
