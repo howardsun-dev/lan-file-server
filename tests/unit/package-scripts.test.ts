@@ -14,7 +14,7 @@ describe('package CLI wiring', () => {
   it('runs the compiled CLI path produced by TypeScript', async () => {
     const packageJson = await readPackageJson();
 
-    expect(packageJson.bin?.['lan-file-server']).toBe('dist/src/cli.js');
+    expect(packageJson.bin?.['lanshare']).toBe('dist/src/cli.js');
     expect(packageJson.scripts?.start).toBe('node dist/src/cli.js');
   });
 

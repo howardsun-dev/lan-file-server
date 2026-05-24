@@ -96,7 +96,7 @@ function renderControlUi(): string {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LAN File Server Control</title>
+  <title>LANShare Control</title>
   <style>
     :root { color-scheme: dark; --bg: #090b0f; --panel: #111722; --panel-2: #151d2b; --line: #263244; --text: #edf4ff; --muted: #8e9caf; --accent: #7bb2ff; --good: #7ef0b2; --bad: #ff8a9a; }
     * { box-sizing: border-box; }

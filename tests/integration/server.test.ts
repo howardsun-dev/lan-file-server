@@ -8,7 +8,7 @@ import { createApp } from '../../src/server.js';
 let root: string;
 
 beforeEach(async () => {
-  root = await mkdtemp(path.join(tmpdir(), 'lan-file-server-'));
+  root = await mkdtemp(path.join(tmpdir(), 'lanshare-'));
   await writeFile(path.join(root, 'hello.txt'), 'hello lan');
   await mkdir(path.join(root, 'docs'));
   await writeFile(path.join(root, 'docs', 'guide.md'), '# Guide');
@@ -24,7 +24,7 @@ describe('HTTP file server', () => {
 
     const response = await request(app).get('/').expect(200).expect('Content-Type', /html/);
 
-    expect(response.text).toContain('LAN File Server');
+    expect(response.text).toContain('LANShare');
     expect(response.text).toContain('hello.txt');
     expect(response.text).toContain('docs/');
     expect(response.text).toContain('class="shell"');

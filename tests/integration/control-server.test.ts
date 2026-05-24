@@ -44,7 +44,7 @@ describe('control UI server', () => {
     expect(response.body.directories).toEqual([{ name: 'share-me', path: child }]);
   });
 
-  it('starts a LAN file server for the selected directory and stops it', async () => {
+  it('starts a LANShare for the selected directory and stops it', async () => {
     const app = createControlApp({ state });
 
     const start = await request(app)
