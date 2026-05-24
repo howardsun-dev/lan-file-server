@@ -141,7 +141,7 @@ function renderControlUi(): string {
       <section class="card">
         <header>
           <h1>Serve a Folder</h1>
-          <p>Browse this machine's directories, pick one, then start or stop the LAN file server without touching the terminal.</p>
+          <p>Pick a folder to serve. Click Start server to begin sharing it on the network.</p>
         </header>
         <div class="body">
           <div class="grid">
@@ -159,7 +159,6 @@ function renderControlUi(): string {
             </div>
           </div>
           <div class="actions">
-            <button id="browse" type="button">Browse folders</button>
             <button id="start" class="primary" type="button">Start server</button>
             <button id="stop" class="danger" type="button">Stop server</button>
           </div>
@@ -266,8 +265,6 @@ async function refreshStatus() {
   renderStatus(await api('/api/server/status'));
 }
 
-document.querySelector('#browse').addEventListener('click', () => browse());
-parentButton.addEventListener('click', () => parentPath && browse(parentPath));
 document.querySelector('#start').addEventListener('click', async () => {
   try {
     const status = await api('/api/server/start', { method: 'POST', body: JSON.stringify({ rootDir: folderPath.value, host: host.value, port: port.value }) });
@@ -286,6 +283,7 @@ document.querySelector('#stop').addEventListener('click', async () => {
     setMessage(error.message, true);
   }
 });
+parentButton.addEventListener('click', () => parentPath && browse(parentPath));
 
 refreshStatus().catch((error) => setMessage(error.message, true));
 browse().catch(() => undefined);

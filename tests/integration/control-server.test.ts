@@ -29,7 +29,7 @@ describe('control UI server', () => {
     const response = await request(app).get('/').expect(200).expect('Content-Type', /html/);
 
     expect(response.text).toContain('Serve a Folder');
-    expect(response.text).toContain('Browse folders');
+    expect(response.text).not.toContain('Browse folders');
     expect(response.text).toContain('Start server');
     expect(response.text).toContain('Stop server');
   });
