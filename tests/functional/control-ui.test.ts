@@ -44,6 +44,13 @@ describe('control UI browser flow', () => {
     const servedUrl = await page.getByTestId('served-url').textContent();
     expect(servedUrl).toMatch(/^http:\/\/127\.0\.0\.1:\d+$/);
 
+    const lanUrlLayout = await page.locator('#lanUrls').evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return { display: style.display, rowGap: Number.parseFloat(style.rowGap) };
+    });
+    expect(['flex', 'grid']).toContain(lanUrlLayout.display);
+    expect(lanUrlLayout.rowGap).toBeGreaterThanOrEqual(8);
+
     const servedResponse = await page.goto(`${servedUrl}/browser.txt`);
     expect(await servedResponse?.text()).toBe('browser controlled file');
 
