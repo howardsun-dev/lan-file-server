@@ -19,6 +19,7 @@ export interface RunningServer {
   url: string;
   port: number;
   host: string;
+  rootDir: string;
   lanUrls: string[];
   close: () => Promise<void>;
 }
@@ -200,6 +201,7 @@ export async function startServer(options: ServerOptions): Promise<RunningServer
     url,
     port: address.port,
     host,
+    rootDir: path.resolve(options.rootDir),
     lanUrls: getLanAddresses(address.port),
     close: () =>
       new Promise<void>((resolve, reject) => {
