@@ -22,8 +22,15 @@ Sometimes you just need to move a file from one machine to another without setti
 git clone https://github.com/howardsun-dev/lan-file-server.git
 cd lan-file-server
 npm install
-npm run build
 npm start -- ~/Downloads --port 8080
+```
+
+`npm start` automatically builds first. The `--` is required: it tells npm to pass the folder and `--port` through to the app instead of parsing them as npm options.
+
+On Windows PowerShell:
+
+```powershell
+npm start -- "C:\Users\howar\Downloads" --port 8080
 ```
 
 Then open the printed LAN URL from another device on the same network, for example:
@@ -37,6 +44,12 @@ http://192.168.1.42:8080
 ```bash
 npm install
 npm run dev -- /path/to/share --port 8080
+```
+
+For Windows paths, quote the folder if it contains backslashes, spaces, or shell-sensitive characters:
+
+```powershell
+npm run dev -- "C:\Users\howar\Downloads" --port 8080
 ```
 
 If you omit the folder, the server shares the current working directory.
