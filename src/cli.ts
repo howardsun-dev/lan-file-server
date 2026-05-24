@@ -1,22 +1,29 @@
 #!/usr/bin/env node
 import path from 'node:path';
+import { startControlServer } from './control.js';
 import { startServer } from './server.js';
 
 interface CliArgs {
   rootDir: string;
   host: string;
   port: number;
+  controlUi: boolean;
 }
 
 function printHelp(): void {
   console.log(`lan-file-server
 
-Share a folder over HTTP on your LAN.
+Share a folder over HTTP on your LAN, either directly or through a local control UI.
 
 Usage:
+  lan-file-server                 Start the local control UI
+  lan-file-server --ui            Start the local control UI
+  lan-file-server <folder>        Serve a folder immediately
   lan-file-server <folder> [--host 0.0.0.0] [--port 8080]
 
 Examples:
+  lan-file-server
+  lan-file-server --ui --port 7070
   lan-file-server ~/Downloads
   lan-file-server /srv/share --port 3000
 `);
@@ -29,6 +36,7 @@ function parseArgs(argv: string[]): CliArgs {
     process.exit(0);
   }
 
+  const controlUi = args.includes('--ui') || args.every((arg) => arg.startsWith('-'));
   const rootArg = args.find((arg) => !arg.startsWith('-'));
   const rootDir = path.resolve(rootArg ?? process.cwd());
 
@@ -37,20 +45,31 @@ function parseArgs(argv: string[]): CliArgs {
     return index >= 0 ? (args[index + 1] ?? fallback) : fallback;
   };
 
-  const port = Number(readOption('--port', process.env.PORT ?? '8080'));
+  const port = Number(readOption('--port', process.env.PORT ?? (controlUi ? '7070' : '8080')));
   if (!Number.isInteger(port) || port < 0 || port > 65535) {
     throw new Error(`Invalid port: ${port}`);
   }
 
   return {
     rootDir,
-    host: readOption('--host', process.env.HOST ?? '0.0.0.0'),
+    host: readOption('--host', process.env.HOST ?? (controlUi ? '127.0.0.1' : '0.0.0.0')),
     port,
+    controlUi,
   };
 }
 
 async function main(): Promise<void> {
   const options = parseArgs(process.argv.slice(2));
+
+  if (options.controlUi) {
+    const control = await startControlServer({ host: options.host, port: options.port });
+    console.log('LAN File Server control UI is running');
+    console.log(`Control UI: ${control.url}`);
+    console.log('Open that URL to browse folders and start/stop serving.');
+    console.log('Press Ctrl+C to stop.');
+    return;
+  }
+
   const server = await startServer(options);
 
   console.log('LAN File Server is running');
