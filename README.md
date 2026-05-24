@@ -1,11 +1,11 @@
-# LAN File Server
+# LANShare
 
-A tiny TypeScript app for sharing any local folder across your LAN. Use the local control UI to browse to a directory and start/stop serving, or pass a folder directly from the CLI.
+LANShare is a tiny TypeScript app for sharing any local folder across your LAN. Use the local control UI to browse to a directory and start/stop serving, or pass a folder directly from the CLI.
 
 ## What it does
 
 - Provides a local control UI for browsing this machine's folders
-- Starts and stops the LAN file server from the browser
+- Starts and stops LANShare from the browser
 - Serves files from the folder you choose
 - Renders a clean responsive directory browser for downloading files
 - Works on your local network by binding the file server to `0.0.0.0` by default
@@ -21,8 +21,8 @@ Sometimes you just need to move a file from one machine to another without setti
 ## Quick start: control UI
 
 ```bash
-git clone https://github.com/howardsun-dev/lan-file-server.git
-cd lan-file-server
+git clone https://github.com/howardsun-dev/LANShare.git
+cd LANShare
 npm install
 npm start
 ```

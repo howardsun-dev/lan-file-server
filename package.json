@@ -1,7 +1,7 @@
 {
   "name": "lan-file-server",
   "version": "1.0.0",
-  "description": "Tiny TypeScript HTTP server for sharing a folder on your LAN with a minimalist web UI.",
+  "description": "LANShare: TypeScript HTTP server for sharing a folder on your LAN with a minimalist web UI.",
   "type": "module",
   "main": "dist/src/server.js",
   "types": "dist/src/server.d.ts",
@@ -39,6 +39,14 @@
     "static-files"
   ],
   "author": "Howard Sun",
+  "homepage": "https://github.com/howardsun-dev/LANShare#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/howardsun-dev/LANShare.git"
+  },
+  "bugs": {
+    "url": "https://github.com/howardsun-dev/LANShare/issues"
+  },
   "license": "MIT",
   "dependencies": {
     "compression": "^1.8.1",
