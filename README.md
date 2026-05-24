@@ -27,7 +27,7 @@ npm install
 npm start
 ```
 
-`npm start` automatically builds first. With no folder argument, it opens the local control UI on:
+`npm start` automatically builds first. With no folder argument, it starts the local control UI and opens it in your default browser:
 
 ```text
 http://127.0.0.1:7070
@@ -89,8 +89,8 @@ npm run dev -- "C:\Users\alex\Downloads" --port 8080
 ## CLI
 
 ```bash
-lan-file-server                 # Start the local control UI
-lan-file-server --ui            # Start the local control UI
+lan-file-server                 # Start the local control UI and open it in your browser
+lan-file-server --ui            # Start the local control UI and open it in your browser
 lan-file-server <folder>        # Serve a folder immediately
 lan-file-server <folder> [--host 0.0.0.0] [--port 8080]
 ```
@@ -109,7 +109,7 @@ lan-file-server ~/Pictures --host 127.0.0.1 --port 9000
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `<folder>` | none | Folder to expose immediately. Omit it to start the control UI. |
+| `<folder>` | none | Folder to expose immediately. Omit it to start the control UI and open it in your browser. |
 | `--ui` | off | Start the control UI instead of immediately serving a folder. |
 | `--host` | UI: `127.0.0.1`, direct: `0.0.0.0` | Bind address. Use `127.0.0.1` for local-only access. |
 | `--port` | UI: `7070`, direct: `8080` | HTTP port. Use `0` to pick a random free port in tests or embedded use. |

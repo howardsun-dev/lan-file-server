@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import path from 'node:path';
+import { openBrowser } from './browser.js';
 import { startControlServer } from './control.js';
 import { startServer } from './server.js';
 
@@ -36,14 +37,27 @@ function parseArgs(argv: string[]): CliArgs {
     process.exit(0);
   }
 
-  const controlUi = args.includes('--ui') || args.every((arg) => arg.startsWith('-'));
-  const rootArg = args.find((arg) => !arg.startsWith('-'));
-  const rootDir = path.resolve(rootArg ?? process.cwd());
-
   const readOption = (name: string, fallback: string): string => {
     const index = args.indexOf(name);
     return index >= 0 ? (args[index + 1] ?? fallback) : fallback;
   };
+
+  const optionNamesWithValues = new Set(['--host', '--port']);
+  const positionalArgs: string[] = [];
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (optionNamesWithValues.has(arg)) {
+      index += 1;
+      continue;
+    }
+    if (!arg.startsWith('-')) {
+      positionalArgs.push(arg);
+    }
+  }
+
+  const rootArg = positionalArgs[0];
+  const controlUi = args.includes('--ui') || rootArg === undefined;
+  const rootDir = path.resolve(rootArg ?? process.cwd());
 
   const port = Number(readOption('--port', process.env.PORT ?? (controlUi ? '7070' : '8080')));
   if (!Number.isInteger(port) || port < 0 || port > 65535) {
@@ -65,7 +79,8 @@ async function main(): Promise<void> {
     const control = await startControlServer({ host: options.host, port: options.port });
     console.log('LAN File Server control UI is running');
     console.log(`Control UI: ${control.url}`);
-    console.log('Open that URL to browse folders and start/stop serving.');
+    console.log('Opening the control UI in your browser so you can choose a folder to serve.');
+    openBrowser(control.url);
     console.log('Press Ctrl+C to stop.');
     return;
   }
